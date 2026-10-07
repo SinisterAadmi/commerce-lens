@@ -2,6 +2,10 @@
 
 A working college project for **Data Visualization: Types, Applications**, built with Python, Pandas, Plotly, and Streamlit. Includes eight visualization types, linked sidebar filters, descriptive findings, data quality checks, CSV upload/export, and an optional Spark aggregation script.
 
+**Live dashboard:** [Open CommerceLens](https://commerce-lens-sinisteraadmi.streamlit.app/)
+
+Deployed publicly on Streamlit Community Cloud from `SinisterAadmi/commerce-lens`, branch `main`, entrypoint `app.py`, using Python 3.13. Public visibility and dashboard startup were verified on 7 October 2026.
+
 ## Run on Windows
 
 Install Python 3.11 or newer. Open PowerShell in this folder and run:
