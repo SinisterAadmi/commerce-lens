@@ -33,8 +33,32 @@ with st.sidebar:
     source = st.radio("Data source", ["Synthetic demo", "Upload CSV"])
     upload = st.file_uploader("Orders CSV", type="csv") if source == "Upload CSV" else None
     st.caption("Currency: INR · one row per order line")
-    if source == "Upload CSV" and upload is None:
-        st.info("Upload a CSV to begin. The schema is available in the project README.")
+
+if source == "Upload CSV":
+    st.subheader("Upload your e-commerce data")
+    st.write("Choose a CSV in the sidebar. Use the exact column names below; each row should represent one order line.")
+    with st.expander("CSV schema and field formats", expanded=upload is None):
+        required, optional = st.columns(2)
+        with required:
+            st.markdown("**Required columns**")
+            st.code("\n".join(REQUIRED), language=None)
+        with optional:
+            st.markdown("**Optional columns**")
+            st.code("Discount\nSubcategory\nRating\nLatitude\nLongitude", language=None)
+        st.markdown("""**Field formats**
+
+- **Date:** use `YYYY-MM-DD`, for example `2025-01-10`.
+- **Price:** nonnegative unit price in INR, before discount (for example `1500`).
+- **Quantity:** positive whole number (for example `2`).
+- **Profit:** numeric profit for the order line; negative values represent losses.
+- **Discount:** fraction from `0` to `1`; `0.20` means 20%. If omitted, zero discount is assumed.
+- **Rating:** optional numeric value from `1` to `5`.
+- **Latitude / Longitude:** numeric coordinates, from −90 to 90 / −180 to 180. Supply them for cities outside the demo lookup to include those cities on the map.
+- **Other fields:** nonempty text. Repeated Order IDs are allowed for separate lines of the same order. Subcategory defaults to Product when omitted.
+""")
+        st.download_button("Download example CSV", load_sample().head(3).to_csv(index=False).encode("utf-8"), "example_orders.csv", "text/csv", key="schema_example")
+    if upload is None:
+        st.info("Upload a CSV using the sidebar to begin.")
         st.stop()
 
 try:
